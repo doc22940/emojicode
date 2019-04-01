@@ -13,7 +13,21 @@ char ConstantReferenceCountingPass::id = 0;
 char LocalReferenceCountingPass::id = 0;
 char RedundantReferenceCountingPass::id = 0;
 
-bool ReferenceCountingPass::runOnFunction(llvm::Function &function) {
+bool ConstantReferenceCountingPass::runOnFunction(llvm::Function &function) {
+    modified_ = false;
+    for (auto &block : function) {
+        for (auto &inst : block) {
+            if (auto callInst = llvm::dyn_cast<llvm::CallInst>(&inst)) {
+                if (isMemoryFunction(callInst->getCalledFunction())) {
+                    transformMemoryInst(callInst);
+                }
+            }
+        }
+    }
+    return modified_;
+}
+
+bool LocalReferenceCountingPass::runOnFunction(llvm::Function &function) {
     modified_ = false;
     for (auto &block : function) {
         for (auto &inst : block) {

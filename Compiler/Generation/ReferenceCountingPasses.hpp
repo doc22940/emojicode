@@ -22,11 +22,6 @@ protected:
     std::vector<llvm::Instruction*> toBeDeleted_;
     bool modified_ = false;
 
-    /// Called by this class’s implementation of runOnFunction() for every ejcRetain/Release family call.
-    virtual void transformMemoryInst(llvm::CallInst *callInst) {}
-
-    bool runOnFunction(llvm::Function &function) override;
-
     /// Calls eraseFromParent() on all instructions in toBeDeleted_ and clears it.
     void deleteInstructions();
 
@@ -42,7 +37,8 @@ public:
 
     ConstantReferenceCountingPass(RunTimeHelper *runTime) : ReferenceCountingPass(runTime, id) {}
 private:
-    void transformMemoryInst(llvm::CallInst *callInst) override;
+    void transformMemoryInst(llvm::CallInst *callInst);
+    bool runOnFunction(llvm::Function &function) override;
 };
 
 /// This pass finds calls to the ejcRetain/Relase family where the argument is certainly stack allocated and replaces
@@ -53,7 +49,8 @@ public:
 
     LocalReferenceCountingPass(RunTimeHelper *runTime) : ReferenceCountingPass(runTime, id) {}
 private:
-    void transformMemoryInst(llvm::CallInst *callInst) override;
+    void transformMemoryInst(llvm::CallInst *callInst);
+    bool runOnFunction(llvm::Function &function) override;
 };
 
 /// This pass finds calls to the ejcRetain family where the counterpart call to a member of the ejcRelease family

@@ -1,9 +1,9 @@
-file(GLOB EMOJIC_DEPEND "*.emojic")
+file(GLOB EMOJIC_DEPEND "*.🍇")
 
 # NOTE: CMake is absolutely not required for packages that do not link to non-Emojicode
 # object code. CMake is used here only for automation of the build process of the entire project!
 
-get_filename_component(MAIN_FILE json.emojic ABSOLUTE)
+get_filename_component(MAIN_FILE json.🍇 ABSOLUTE)
 set(PACKAGE_FILE json.o)
 
 add_library(json STATIC ${PACKAGE_FILE})

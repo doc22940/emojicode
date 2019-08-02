@@ -1,7 +1,7 @@
 file(GLOB SOURCES "*.cpp" "*.c")
-file(GLOB EMOJIC_DEPEND "*.emojic")
+file(GLOB EMOJIC_DEPEND "*.🍇")
 
-get_filename_component(MAIN_FILE files.emojic ABSOLUTE)
+get_filename_component(MAIN_FILE files.🍇 ABSOLUTE)
 set(PACKAGE_FILE files.o)
 
 add_library(files STATIC ${SOURCES} ${PACKAGE_FILE})
